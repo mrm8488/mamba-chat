@@ -1,16 +1,25 @@
 import torch
 import transformers
 import json
+import os
 
 from dataclasses import dataclass
 from typing import Dict, Sequence
 from tqdm import tqdm
 from torch.utils.data import Dataset
+from datasets import load_dataset
 
 
 class ChatDataset(Dataset):
     def __init__(self, data_path: str, tokenizer: transformers.AutoTokenizer, conversation_template: str, max_tokens: int):
         super(ChatDataset, self).__init__()
+        # Check if data_path exists, if not, download from HF and save it as JSON
+        if not os.path.exists(data_path):
+            ds = load_dataset(data_path)
+            ds_id = data_path.split("\")[-1]
+            data_path = f"../data/{ds_id}.jsonl"                    
+            ds.to_json(data_path)                        
+            
         data = []
         with open(data_path, "r") as file:
             for line in file:  
