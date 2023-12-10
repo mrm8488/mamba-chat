@@ -4,6 +4,8 @@ from transformers import AutoTokenizer, AutoModelForCausalLM
 from mamba_ssm.models.mixer_seq_simple import MambaLMHeadModel
 from argparse import ArgumentParser
 
+CHAT_TEMPLATE_ID = "HuggingFaceH4/zephyr-7b-beta
+
 def get_args():
     parser = ArgumentParser()
     parser.add_argument("--port", type=int, default=7860)
@@ -32,9 +34,7 @@ if __name__ == "__main__":
     tokenizer = AutoTokenizer.from_pretrained(model_name)
     tokenizer.eos_token = eos
     tokenizer.pad_token = tokenizer.eos_token
-    tokenizer.chat_template = AutoTokenizer.from_pretrained(
-        "HuggingFaceH4/zephyr-7b-beta"
-    ).chat_template
+    tokenizer.chat_template = AutoTokenizer.from_pretrained(CHAT_TEMPLATE_ID).chat_template
 
     model = MambaLMHeadModel.from_pretrained(
         model_name, device=device, dtype=torch.float16
