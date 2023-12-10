@@ -21,7 +21,7 @@ def run(args):
         tokenizer=tokenizer,
         data_path=args.data_path,
         conversation_template=tokenizer.chat_template,
-        max_tokens=2048
+        max_tokens=args.max_tokens
     )
 
 
@@ -35,7 +35,7 @@ def run(args):
             per_device_train_batch_size=args.batch_size,
             gradient_accumulation_steps=args.gradient_accumulation_steps,
             optim=args.optim,
-            output_dir="mamba-chat",
+            output_dir="mamba-finetuned",
             logging_steps=50,
             save_steps=500,
         ),
@@ -49,12 +49,13 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--model", type=str, default="state-spaces/mamba-2.8b")
     parser.add_argument("--tokenizer", type=str, default="EleutherAI/gpt-neox-20b")
+    parser.add_argument("--max_tokens", type=int, default=2048)    
     parser.add_argument("--learning_rate", type=float, default=5e-5)
     parser.add_argument("--batch_size", type=int, default=4)
     parser.add_argument("--gradient_accumulation_steps", type=int, default=1)
     parser.add_argument("--optim", type=str, default="adamw_torch")
     parser.add_argument("--data_path", type=str, default="./data/ultrachat_small.jsonl")
-    parser.add_argument("--num_epochs", type=int, default=1)
+    parser.add_argument("--num_epochs", type=float, default=1)
     args = parser.parse_args()
 
     run(args)
