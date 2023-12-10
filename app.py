@@ -4,7 +4,7 @@ from transformers import AutoTokenizer, AutoModelForCausalLM
 from mamba_ssm.models.mixer_seq_simple import MambaLMHeadModel
 from argparse import ArgumentParser
 
-CHAT_TEMPLATE_ID = "HuggingFaceH4/zephyr-7b-beta
+CHAT_TEMPLATE_ID = "HuggingFaceH4/zephyr-7b-beta"
 
 def get_args():
     parser = ArgumentParser()
@@ -84,6 +84,6 @@ if __name__ == "__main__":
             gr.Slider(minimum=0, maximum=1, step=0.1, value=0.7, label="top_p"),
             gr.Number(value=2000, label="max_length"),
         ],
-        title="Mamba Chat",
+        title="Mamba 🐍 Chat",
     )
     demo.launch(server_port=args.port, share=args.share)
