@@ -16,7 +16,7 @@ class ChatDataset(Dataset):
         # Check if data_path exists, if not, download from HF and save it as JSON
         if not os.path.exists(data_path):
             ds = load_dataset(data_path)
-            ds_id = data_path.split("\")[-1]
+            ds_id = data_path.split("/")[-1]
             data_path = f"../data/{ds_id}.jsonl"                    
             ds.to_json(data_path)                        
             
