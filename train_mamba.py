@@ -35,14 +35,15 @@ def run(args):
             per_device_train_batch_size=args.batch_size,
             gradient_accumulation_steps=args.gradient_accumulation_steps,
             optim=args.optim,
-            output_dir="mamba-finetuned",
+            output_dir=args.output_dir,
             logging_steps=50,
             save_steps=500,
+            save_total_limit=args.save_total_limit
         ),
         data_collator=data_module.data_collator,
     )
 
-    trainer.train()
+    trainer.train(resume_from_checkpoint=args.resume_from_checkpoint)
 
 
 if __name__ == "__main__":
@@ -56,6 +57,9 @@ if __name__ == "__main__":
     parser.add_argument("--optim", type=str, default="adamw_torch")
     parser.add_argument("--data_path", type=str, default="./data/ultrachat_small.jsonl")
     parser.add_argument("--num_epochs", type=float, default=1)
+    parser.add_argument("--output_dir", type=str, default="mamba-finetuned")
+    parser.add_argument("--save_total_limit", type=int, default=2)    
+    parser.add_argument("--resume_from_checkpoint", action="store_true")     
     args = parser.parse_args()
 
     run(args)
