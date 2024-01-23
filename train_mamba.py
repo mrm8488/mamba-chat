@@ -34,8 +34,6 @@ def run(args):
     )
                 
 
-    eval_dataset = 
-
     trainer = MambaTrainer(
         model=model,
         train_dataset=train_data_module.dataset,
