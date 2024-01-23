@@ -50,6 +50,7 @@ def run(args):
             logging_steps=50,
             save_steps=500,    
             save_total_limit=args.save_total_limit,
+            do_eval=args.do_eval,
             eval_steps=args.eval_steps
         ),
         data_collator=train_data_module.data_collator,
