@@ -28,7 +28,8 @@ def run(args):
         tokenizer=tokenizer,
         data_path=args.test_data_path,
         conversation_template=tokenizer.chat_template,
-        max_tokens=args.max_tokens
+        max_tokens=args.max_tokens)
+                
 
 
 
