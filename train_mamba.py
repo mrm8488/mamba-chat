@@ -17,17 +17,25 @@ def run(args):
     tokenizer.chat_template = AutoTokenizer.from_pretrained("HuggingFaceH4/zephyr-7b-beta").chat_template
 
 
-    data_module = ChatDataModule(
+    train_data_module = ChatDataModule(
         tokenizer=tokenizer,
-        data_path=args.data_path,
+        data_path=args.train_data_path,
         conversation_template=tokenizer.chat_template,
         max_tokens=args.max_tokens
     )
+    if args.test_data_path:
+        test_data_module = ChatDataModule(
+        tokenizer=tokenizer,
+        data_path=args.test_data_path,
+        conversation_template=tokenizer.chat_template,
+        max_tokens=args.max_tokens
+
 
 
     trainer = MambaTrainer(
         model=model,
-        train_dataset=data_module.dataset,
+        train_dataset=train_data_module.dataset,
+        eval_dataset=test_train_data_module.dataset if test_data_module else None,
         tokenizer=tokenizer,
         args=TrainingArguments(
             learning_rate=args.learning_rate,
@@ -37,8 +45,9 @@ def run(args):
             optim=args.optim,
             output_dir=args.output_dir,
             logging_steps=50,
-            save_steps=500,
+            save_steps=500,    
             save_total_limit=args.save_total_limit
+            eval_steps=args.eval_steps
         ),
         data_collator=data_module.data_collator,
     )
@@ -55,8 +64,10 @@ if __name__ == "__main__":
     parser.add_argument("--batch_size", type=int, default=4)
     parser.add_argument("--gradient_accumulation_steps", type=int, default=1)
     parser.add_argument("--optim", type=str, default="adamw_torch")
-    parser.add_argument("--data_path", type=str, default="./data/ultrachat_small.jsonl")
+    parser.add_argument("--train_data_path", type=str, default="./data/ultrachat_small.jsonl")
+    parser.add_argument("--test_data_path", type=str, required=False)    
     parser.add_argument("--num_epochs", type=float, default=1)
+    parser.add_argument("--eval_steps", tyoe=int, default=500)    
     parser.add_argument("--output_dir", type=str, default="mamba-finetuned")
     parser.add_argument("--save_total_limit", type=int, default=2)    
     parser.add_argument("--resume_from_checkpoint", action="store_true")     
