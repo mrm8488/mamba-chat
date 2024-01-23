@@ -30,9 +30,9 @@ def run(args):
         tokenizer=tokenizer,
         data_path=args.test_data_path,
         conversation_template=tokenizer.chat_template,
-        max_tokens=args.max_tokens)
+        max_tokens=args.max_tokens
+    )
                 
-
 
 
     trainer = MambaTrainer(
@@ -52,7 +52,7 @@ def run(args):
             save_total_limit=args.save_total_limit,
             eval_steps=args.eval_steps
         ),
-        data_collator=data_module.data_collator,
+        data_collator=train_data_module.data_collator,
     )
 
     trainer.train(resume_from_checkpoint=args.resume_from_checkpoint)
