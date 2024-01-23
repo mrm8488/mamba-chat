@@ -68,7 +68,7 @@ if __name__ == "__main__":
     parser.add_argument("--train_data_path", type=str, default="./data/ultrachat_small.jsonl")
     parser.add_argument("--test_data_path", type=str, required=False)    
     parser.add_argument("--num_epochs", type=float, default=1)
-    parser.add_argument("--eval_steps", tyoe=int, default=500)    
+    parser.add_argument("--eval_steps", type=int, default=500)    
     parser.add_argument("--output_dir", type=str, default="mamba-finetuned")
     parser.add_argument("--save_total_limit", type=int, default=2)    
     parser.add_argument("--resume_from_checkpoint", action="store_true")     
