@@ -25,7 +25,7 @@ def run(args):
         conversation_template=tokenizer.chat_template,
         max_tokens=args.max_tokens
     )
-    if args.test_data_path:
+    if args.do_eval:
         test_data_module = ChatDataModule(
         tokenizer=tokenizer,
         data_path=args.test_data_path,
@@ -34,11 +34,12 @@ def run(args):
     )
                 
 
+    eval_dataset = 
 
     trainer = MambaTrainer(
         model=model,
         train_dataset=train_data_module.dataset,
-        eval_dataset=test_data_module.dataset if test_data_module else None,
+        eval_dataset=test_data_module.dataset if args.do_eval else None,
         tokenizer=tokenizer,
         args=TrainingArguments(
             learning_rate=args.learning_rate,
@@ -71,6 +72,7 @@ if __name__ == "__main__":
     parser.add_argument("--train_data_path", type=str, default="./data/ultrachat_small.jsonl")
     parser.add_argument("--test_data_path", type=str, required=False)    
     parser.add_argument("--num_epochs", type=float, default=1)
+    parser.add_argument("--do_eval", action="store_true")
     parser.add_argument("--eval_steps", type=int, default=500)    
     parser.add_argument("--output_dir", type=str, default="mamba-finetuned")
     parser.add_argument("--save_total_limit", type=int, default=2)    
