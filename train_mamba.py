@@ -47,7 +47,7 @@ def run(args):
             output_dir=args.output_dir,
             logging_steps=50,
             save_steps=500,    
-            save_total_limit=args.save_total_limit
+            save_total_limit=args.save_total_limit,
             eval_steps=args.eval_steps
         ),
         data_collator=data_module.data_collator,
